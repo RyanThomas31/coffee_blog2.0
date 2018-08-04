@@ -1,0 +1,107 @@
+html, body {
+    position: relative;
+    font-family: 'Montserrat', serif;
+    background-color: #6a4f3f;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    color: #ffffff;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    display: table;
+    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/brown-bg.jpg") no-repeat center center;
+  }
+  
+  #canvas {
+    display: table-cell;
+    vertical-align: top;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+  
+  canvas {
+    max-width: 100vw;
+    max-height: 100vh;
+    position: relative;
+    z-index: 1;
+    margin-right: 212px;
+  }
+  
+  h1 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    font-weight: 800;
+    opacity: 0;
+    color: black;
+    margin: 0;
+  }
+  
+  #hot {
+    color: #bb1919;
+    font-style: italic;
+    display: inline-block;
+    overflow: visible;
+  }
+  
+  #cold {
+    color: #00fffc;
+    font-style: italic;
+    display: inline-block;
+    overflow: hidden;
+    width: 0;
+  }
+  
+  .temp {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    width: 1vw;
+    height: 50vh;
+  }
+  
+  .temp-hot {
+    top: 0px;
+    background-color: #bb1919;
+    border: 1px solid #bb1919;
+  }
+  
+  .temp-cold {
+    bottom: 0px;
+    background-color: #00fffc;
+    border: 1px solid #00fffc;
+  }
+  
+  .anchors {
+      margin-top: 310px;
+      display: flex;
+      margin-left: 15px;
+  }
+  
+  @media screen and (min-height: 1050px) and (min-width: 1400px) {
+    canvas {
+      max-width: 1400px;
+      max-height: 1050px;
+    }
+  }
+  @media screen and (orientation: portrait) {
+    h1 {
+      font-size: 18vw;
+    }
+  }
+  @media screen and (orientation: landscape) {
+    h1 {
+      font-size: 17vh;
+    }
+  }
+  @media screen and (max-width: 1000px) and (orientation: portrait) {
+    h1 {
+      font-size: 15vw;
+    }
+  }
+  

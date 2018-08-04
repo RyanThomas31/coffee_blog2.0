@@ -1,0 +1,21 @@
+<? include ./partials/header ?> 
+<h1 style="text-align: center; color:whitesmoke">Sign Up Form</h1> 
+<form action="/register" method="POST"> 
+    <div class="ui massive form"> 
+        <div class="two fields"> 
+            <div class="field name"><input placeholder="Username" type="text" name="username"> 
+            </div>
+            <div class="field lname"><input placeholder="Last Name" type="text" name="lastname"> 
+            </div>
+            <div class="field email">
+              <input placeholder="Email" type="email" name="email"> 
+            </div>
+            <div class="field pword"> 
+              <input placeholder="Password" type="password" name="password"> 
+            </div>
+        </div> <br>
+            <button class="big ui black button">SIGN UP TO BLOG!</button> <br> <br>
+            <a class="ui green button" href="/login">Already have an account?</a>
+    </div> 
+</form>
+        <? include ./partials/footer ?>

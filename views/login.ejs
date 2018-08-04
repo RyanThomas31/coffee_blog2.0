@@ -1,0 +1,17 @@
+<? include ./partials/header ?> 
+<h1 style="text-align:center; color:whitesmoke">Log In Form</h1> 
+<form action="/login" method="POST"> 
+    <div class="ui massive form"> 
+        <div class="two fields"> 
+            <div class="field"> 
+                <input placeholder="Username" type="text" name="username"> 
+            </div> 
+            <div class="field">
+              <input placeholder="Password" type="password" name="password"> 
+            </div> 
+        </div> <br>
+        <button class="ui green  button">LOGIN</button>
+        <a class="ui red button" href="/register">Need an account?</a>
+    </div> 
+</form>
+<? include ./partials/footer ?>

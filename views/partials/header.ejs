@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exposure Café</title>
+  <!-- include libraries(jQuery, bootstrap) -->    
+ <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">    
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>    
+ <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>      
+<!-- include summernote css/js -->    
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>        
+ <!-- include semantic ui css/js -->    
+ <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">     
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> -->     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="icon" type="favicon" href="https://i.imgur.com/OdTOxu8.png">
+</head>
+<body>
+  <div class="ui fixed inverted menu" style="background-color: chocolate">
+    <div class="ui container">
+      <div class="header item" style="margin-right: 10px; color: black">
+        <a href="/"><i class="coffee icon"></i></a>
+        <a href="/" style="color: rgba(46, 20, 20, 20)">Exposure Café</a>
+      </div>
+      <a href="/" class="item" style="margin-left: 320px; color: black; font-weight: bolder; font-size: 20px">Coffee Talk</a>
+      <a href="/blogs/new" class="item" style="margin-left: 70px; color: black; font-weight: bold"><i class="plus circle icon"></i>Add a new blog</a>
+      <a href="/blogs/archive" class="item" style="margin-left: -8px; color: black; font-weight: bold"><i class="address book icon"></i>Blog Archive</a>
+      <div class="right menu">
+          <? if(!currentUser){ ?>
+            <a class="ui item inverted brown button" href="/login">LogIn</a>
+            <a class="ui item inverted brown button" href="/register"><i class="pencil alternate icon"></i>SignUp</a>
+          <? } else{ ?>
+            <a class="ui item" href="#">Hey, <?= currentUser.username ?>!</a>
+            <a class="ui item inverted red button"  href="/logout"><i class="power off icon"></i>LogOut</a>
+          <? } ?>
+        </div>
+      </div>
+      
+    </div>
+    
+    <? if(error && error.length > 0){?>
+    <div class="ui red message"><?= error ?></div>
+    <? } ?>
+    <? if(success && success.length > 0){?>
+    <div class="ui floating message"><?= success ?></div>
+    <? } ?>
+    <div id="love-u" style="margin-top:125px">

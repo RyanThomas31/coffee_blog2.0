@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exposure Café</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/sprite.css">
+  <link rel="icon" type="favicon" href="https://i.imgur.com/OdTOxu8.png">
+</head>
+<body>
+  <div class="anchors">
+    <a class="ui green button" href= "/login">Login</a> <br> <br>
+    <a class="ui red button" href= "/register">Register</a> <br> <br>
+    <a class="ui chocolate button" href= "/blogs/firstpage">View Blogs</a>
+  </div>
+  <div class="temp temp-cold"></div>
+  <div class="temp temp-hot"></div>
+  <div id="canvas"></div> 
+  <h1>Coffee <span id="hot">Talk</span><span id="cold">Blog</span></h1>
+  
+
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.3/pixi.min.js"></script>
+  <script>
+    
+  var width = window.innerWidth;
+var height = window.innerHeight;
+
+var numberOfFrames = 12;
+var numberOfGeneratedParticles = 2;
+var change = false;
+
+var canvas = document.getElementById("canvas");
+
+var app = new PIXI.Application(1400, 1050, {
+	    antialiasing:true,
+	    transparent:true,
+	    resolution:1
+	});
+
+canvas.appendChild(app.view);
+
+
+var smoke = [];
+
+function generateParticles(generatedParticles, change) {
+	for (var i = 0; i < generatedParticles; i++) {
+
+		if(change) {
+			var smokeParticle = PIXI.Sprite.fromImage('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/smoke-particle7.png');
+		} else {
+			var smokeParticle = PIXI.Sprite.fromImage('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/smoke-particle5.png');
+		}
+		
+		smokeParticle.anchor.set(0.5);
+		smokeParticle.scale.x = 110.9 + Math.random() * 0.3;
+		smokeParticle.scale.y = 110.9 + Math.random() * 0.3;
+		smokeParticle.x = 550 + Math. random() * 280;
+		smokeParticle.y = 175;
+		smokeParticle.offset = Math.random() * 1000;
+		smoke.push(smokeParticle);
+
+		app.stage.addChild(smokeParticle);
+
+	}
+}
+
+var tick = 0.1;
+var itemForDelete = false;
+
+function createSmoke() {
+	generateParticles(numberOfGeneratedParticles, change);
+
+	if(smoke.length > 5000) {
+		 itemForDelete = true;
+	} else {
+		itemForDelete = false;
+	}
+
+	tick += 0.1;
+	for (var i = 0; i < smoke.length; i++) {
+
+        var smokeParticle = smoke[i];
+        smokeParticle.scale.y = 7.55 + Math.sin(tick + smokeParticle.offset) * 0.05;
+        smokeParticle.scale.x = 7.55 + Math.sin(tick + smokeParticle.offset) * 0.05;
+        
+        if(i % 2) {
+        	smokeParticle.x += Math.random() - (Math.random() * (1.9 - 0.5) + 0.05);
+        } else {
+        	smokeParticle.x -= Math.random() - (Math.random() * (1.9 - 0.5) + 0.05);
+        }
+        
+        smokeParticle.y -= Math.random() * 3;
+
+        if(itemForDelete && i < 30) {
+        	smoke.splice(i, 1);
+        }
+        
+    }
+
+	requestAnimationFrame( createSmoke );
+}
+
+
+var coffeeCup = PIXI.Sprite.fromImage('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/coffee-cup.png');
+var coffeeShadow = PIXI.Sprite.fromImage('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/coffee-cup-shadow.png');
+var coffeeReflect = PIXI.Sprite.fromImage('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/coffee-cup-reflect2.png');
+
+coffeeCup.anchor.set(0.5);
+
+coffeeCup.x = 750;
+coffeeCup.y = -1300;
+
+coffeeShadow.x = 670;
+coffeeShadow.y = 613; 
+
+coffeeShadow.scale.y = 0;
+coffeeShadow.scale.x = 0;
+	
+coffeeReflect.x = 500;
+coffeeReflect.y = 2000;
+coffeeReflect.scale.y = 0;
+
+app.stage.addChild(coffeeCup);
+app.stage.addChild(coffeeShadow);
+app.stage.addChild(coffeeReflect);
+
+
+var frames = [];
+var frames2 = [];
+
+PIXI.loader
+    .add('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/coffee-cup-sprite.json')
+    .add('https://s3-us-west-2.amazonaws.com/s.cdpn.io/595322/coffee-cup-reflect-sprite.json')
+    .load(onAssetsLoaded);
+
+function onAssetsLoaded() {
+	var j = "";
+	for (var i = 0; i < 12; i++) {
+		if(i) j = i;
+		frames.push(PIXI.Texture.fromFrame('coffee-cup' + j + '.png'));
+		frames2.push(PIXI.Texture.fromFrame('coffee-cup-reflect' + j + '.png'));
+	}
+       
+	document.addEventListener("mousemove", onMouseMove);
+
+	function onMouseMove(event) {
+		var widthDivided = window.innerWidth / numberOfFrames;
+		var heightDivided = window.innerHeight / 2;
+
+		var x = event.clientX;
+		var y = event.clientY;
+
+		if(heightDivided > y) {
+			TweenLite.to("#cold", 0.3, {overflow: "hidden", width: 0, opacity: 0, ease: Power2.easeOut});
+			TweenLite.to("#hot", 0.3, {overflow: "visible", width: "auto", opacity: 1, ease: Power2.easeOut});
+			change = false;
+		} else {
+			TweenLite.to("#hot", 0.3, {overflow: "hidden", width: 0, opacity: 0, ease: Power2.easeOut});
+			TweenLite.to("#cold", 0.3, {overflow: "visible", width: "auto", opacity: 1, ease: Power2.easeOut});
+			change = true;
+		}
+		
+		for (i = 1; i <= numberOfFrames; i++) { 
+			if(x <= widthDivided * i) {
+				coffeeCup.setTexture(frames[i-1]);
+				coffeeReflect.setTexture(frames2[i-1]);
+				break;
+			}
+		}
+	}
+  
+  document.addEventListener("touchstart", onTouch, false);
+
+	function onTouch(event) {
+		var heightDivided = window.innerHeight / 2;
+
+		var y = event.changedTouches[0].pageY;;
+
+		if(heightDivided > y) {
+			TweenLite.to("#cold", 0.3, {overflow: "hidden", width: 0, opacity: 0, ease: Power2.easeOut});
+			TweenLite.to("#hot", 1, {overflow: "visible", width: "auto", opacity: 1, ease: Power2.easeOut});
+			change = false;
+		} else {
+			TweenLite.to("#hot", 0.3, {overflow: "hidden", width: 0, opacity: 0, ease: Power2.easeOut});
+			TweenLite.to("#cold", 1, {overflow: "visible", width: "auto", opacity: 1, ease: Power2.easeOut});
+			change = true;
+		}
+	}
+}
+
+setTimeout(function() {
+	TweenLite.to(coffeeShadow, 1.6, {x: 517, ease: Power2.easeOut});
+	TweenLite.to(coffeeShadow.scale, 1.6, {x: 1, y: 1, ease: Power2.easeOut});
+}, 600);
+
+TweenLite.to(coffeeReflect.scale, 2, {y: 1, ease: Power2.easeOut});
+TweenLite.to(coffeeCup, 2, {y: 400, ease: Power2.easeOut});
+TweenLite.to(coffeeReflect, 2, {y: 617, ease: Power2.easeOut});
+
+setTimeout(function() {
+	TweenLite.to("h1", 1, {opacity: 0.2, ease: Power2.easeIn});
+	TweenLite.to(".temp", 1, { opacity: 0.2, ease: Power2.easeIn});
+}, 2400);
+
+setTimeout(function() {
+	createSmoke();
+}, 2600);
+
+  </script>
+</body>
+</html>
